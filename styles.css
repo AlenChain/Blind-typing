@@ -2,6 +2,10 @@ body {
     background-color: rgb(255, 177, 104);
 }
 
+button {
+    cursor: pointer;
+}
+
 .flex {
     display: flex;
 }
@@ -23,6 +27,11 @@ body {
 .span_color_orange {
     color: rgb(255, 123, 0);
 }
+
+.span_font-size_16 {
+    font-size: 16px;
+}
+
 
 .title {
     margin: 0 auto;
@@ -88,11 +97,15 @@ body {
     }
 
         .app-screen__speed {
+            font-size: 36px;
+            color: rgb(255, 123, 0);
             width: 200px;
             height: 150px;
         }
 
         .app-screen__accuracy {
+            font-size: 36px;
+            color: rgb(255, 123, 0);
             width: 200px;
             height: 150px;
         }
@@ -101,3 +114,15 @@ body {
             width: 200px;
             height: 50px;
         }
+
+            .app-screen__restart-button {
+                width: 100px;
+                height: 35px;
+                font-size: 20px;
+                background-color: rgb(255, 177, 104);
+                color: white;
+                border: 0;
+                border-radius: 5px;
+                display: block;
+                margin: 0 auto;
+            }

@@ -1,0 +1,103 @@
+body {
+    background-color: rgb(255, 177, 104);
+}
+
+.flex {
+    display: flex;
+}
+
+.span_background_orange {
+    padding: 3px;
+    border-radius: 2px;
+    background-color: rgb(255, 123, 0);
+    color: white;
+}
+
+.span_background_red {
+    padding: 3px;
+    border-radius: 2px;
+    background-color: rgb(255, 58, 58);
+    color: white;
+}
+
+.span_color_orange {
+    color: rgb(255, 123, 0);
+}
+
+.title {
+    margin: 0 auto;
+    padding: 20px 0;
+    color: white;
+    font-size: 48px;
+    width: 420px;
+}
+
+.app-screen_hidden, .start-screen_hidden {
+    display: none;
+}
+
+.app-block {
+    background-color: white;
+    width: 1000px;
+    height: 400px;
+    border-radius: 10px;
+    margin: 100px auto;
+}
+
+.start-screen {
+        
+}
+
+    .start-screen__title {
+        width: 720px;
+        height: 150px;
+        font-size: 36px;
+        color: rgb(255, 123, 0);
+        padding-top: 100px;
+        margin: 0 auto;
+    }
+
+    .start-screen__button {
+        width: 150px;
+        height: 50px;
+        font-size: 24px;
+        background-color: rgb(255, 177, 104);
+        color: white;
+        border: 0;
+        border-radius: 5px;
+        display: block;
+        margin: 0 auto;
+    }
+
+.app-screen {
+
+}
+
+    .app-screen__text {
+        width: 700px;
+        height: 350px;
+        font-size: 30px;
+        padding: 25px;
+    }
+
+    .app-screen__results {
+        width: 200px;
+        height: 350px;
+        padding: 25px;
+        float: right;
+    }
+
+        .app-screen__speed {
+            width: 200px;
+            height: 150px;
+        }
+
+        .app-screen__accuracy {
+            width: 200px;
+            height: 150px;
+        }
+
+        .app-screen__restart {
+            width: 200px;
+            height: 50px;
+        }

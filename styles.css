@@ -3,6 +3,9 @@ body {
 }
 
 button {
+    background-color: rgb(255, 177, 104);
+    color: white;
+    border: 0;
     cursor: pointer;
 }
 
@@ -38,10 +41,10 @@ button {
     padding: 20px 0;
     color: white;
     font-size: 48px;
-    width: 420px;
+    width: 520px;
 }
 
-.app-screen_hidden, .start-screen_hidden {
+.app-screen_hidden, .start-screen_hidden, .finish-screen_hidden {
     display: none;
 }
 
@@ -59,23 +62,37 @@ button {
 
     .start-screen__title {
         width: 720px;
-        height: 150px;
+        height: 125px;
         font-size: 36px;
         color: rgb(255, 123, 0);
-        padding-top: 100px;
+        padding-top: 50px;
         margin: 0 auto;
     }
 
-    .start-screen__button {
+    .start-screen__langs {
+        font-size: 24px;
+        color: rgb(255, 123, 0);;
+        align-items: center;
+        display: flex;
+        height: 80px;
+    }
+
+    .start-screen__button_ru, .start-screen__button_eng {
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+        font-size: 18px;
+        display: block;
+        margin: auto;
+    }
+
+    .start-screen__button, .finish-screen__button {
         width: 150px;
         height: 50px;
         font-size: 24px;
-        background-color: rgb(255, 177, 104);
-        color: white;
-        border: 0;
         border-radius: 5px;
         display: block;
-        margin: 0 auto;
+        margin: 20px auto 0;
     }
 
 .app-screen {
@@ -96,18 +113,12 @@ button {
         float: right;
     }
 
-        .app-screen__speed {
+        .app-screen__speed, .app-screen__accuracy {
             font-size: 36px;
             color: rgb(255, 123, 0);
-            width: 200px;
+            width: 170px;
             height: 150px;
-        }
-
-        .app-screen__accuracy {
-            font-size: 36px;
-            color: rgb(255, 123, 0);
-            width: 200px;
-            height: 150px;
+            padding-left: 30px;
         }
 
         .app-screen__restart {
@@ -119,10 +130,27 @@ button {
                 width: 100px;
                 height: 35px;
                 font-size: 20px;
-                background-color: rgb(255, 177, 104);
-                color: white;
-                border: 0;
                 border-radius: 5px;
                 display: block;
                 margin: 0 auto;
             }
+
+.finish-screen {
+    flex-wrap: wrap;
+}
+
+    .finish-screen__speed, .finish-screen__accuracy, .finish-screen__title {
+        text-align: center;
+        font-size: 36px;
+        color: rgb(255, 123, 0);
+    }
+
+    .finish-screen__speed, .finish-screen__accuracy {
+        padding-top: 50px;
+        min-width: 500px;
+        height: 100px;
+    }
+
+    .finish-screen__title {
+        min-width: 1000px;
+    }

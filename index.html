@@ -8,13 +8,19 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="title">Тест Слепой Печати</div>
+    <div class="title">Тренажер Слепой Печати</div>
 
     <div class="app-block">
         <div class="start-screen">
             <div class="start-screen__title">Проверьте скорость и точность вашей печати!</div>
+            <div class="start-screen__langs">
+                <button class="start-screen__button_ru">Рус</button>
+                Выберите Язык
+                <button class="start-screen__button_eng">Eng</button>
+            </div>
             <button class="start-screen__button">Начать!</button>
         </div>
+
         <div class="app-screen app-screen_hidden">
             <div class="app-screen__text"></div>
             <div class="app-screen__results">
@@ -22,12 +28,19 @@
                     0 <span class="span_font-size_16">Знак/Мин</span>
                 </div>
                 <div class="app-screen__accuracy">
-                    100 <span class="span_font-size_16">%</span>
+                    100<span class="span_font-size_16">% Точность</span>
                 </div>
                 <div class="app-screen__restart">
                     <button class="app-screen__restart-button">Заново!</button>
                 </div>
             </div>
+        </div>
+
+        <div class="finish-screen finish-screen_hidden">
+            <div class="finish-screen__speed"></div>
+            <div class="finish-screen__accuracy"></div>
+            <div class="finish-screen__title"></div>
+            <button class="finish-screen__button">Заново!</button>
         </div>
     </div>
 

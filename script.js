@@ -231,7 +231,7 @@ function getRandProp(letter) {
         x = Math.round(Math.random()*document.documentElement.clientWidth);
         y = Math.round(Math.random()*document.documentElement.clientHeight);
     }
-    let size = 36 + Math.round(Math.random()*100);
+    let size = 18 + Math.round(Math.random()*130);
     letter.style.left = `${x}px`;
     letter.style.top = `${y}px`;
     letter.style.fontSize = `${size}px`;

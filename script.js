@@ -75,14 +75,22 @@ let ButtonRu = document.querySelector('.start-screen__button_ru');
 let ButtonEng = document.querySelector('.start-screen__button_eng');
 let Langs = document.querySelector('.start-screen__langs');
 
+function changeActiveButton() {
+    ButtonEng.classList.toggle('selected');
+    ButtonRu.classList.toggle('selected');
+}
+
 Langs.addEventListener('click', () => {
     if ((event.target == ButtonRu) && (url != urlRu)) {
         url = urlRu;
+        changeActiveButton();
         getText(url);
     } else if ((event.target == ButtonEng) && (url != urlEng)) {
         url = urlEng;
+        changeActiveButton();
         getText(url);
     }
+
 });
 
 function getText(url) {
@@ -103,6 +111,7 @@ function getText(url) {
         });
 }
 
+ButtonRu.classList.toggle('selected');
 getText(url);
 
 //finishing

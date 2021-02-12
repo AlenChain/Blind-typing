@@ -175,12 +175,12 @@ function clear() {
     clearTimeout(accuracyTimerId);
     appScreenSpeed.innerHTML = `0 <span class="span_font-size_16">Знак/Мин</span> `;
     appScreenAccuracy.innerHTML = `100<span class="span_font-size_16">% Точность</span> `;
+    getText(url);
 }
 
 function restart() {
     changeScreen();
     clear();
-    getText(url);
 }
 
 // finishing

@@ -115,7 +115,6 @@ function processKey() {
             loremArray[current].classList.add('span_color_orange');
             document.body.classList.remove('background_orange-red');
             current++;
-            console.log(current, loremArray.length);
             if (current == loremArray.length) {
                 finishText();
             } else 
@@ -238,8 +237,6 @@ function getRandProp(letter) {
     letter.style.fontSize = `${size}px`;
     return letter;
 }
-
-console.log(startScreen.getBoundingClientRect());
 
 function addBackgroundLetters() {
     let randNumber;

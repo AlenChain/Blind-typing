@@ -26,6 +26,10 @@ button:hover {
     display: flex;
 }
 
+.background_orange-red {
+    background-color: rgb(255, 147, 104);
+}
+
 .span_background_orange {
     padding: 3px;
     border-radius: 2px;

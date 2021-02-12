@@ -32,6 +32,7 @@ function changeScreen(id = 1) {
 }
 
 function start() {
+    current = 0;
     changeScreen();
     showSpeed();
     showAccuracy();
@@ -44,27 +45,28 @@ startButton.addEventListener('click', start);
 let loremText;
 let loremArray = [];
 let appScreenText = document.querySelector('.app-screen__text');
-let current = 0;
+let current = -1;
 let mispress = 0;
 
 function processKey() {
-    if (event.key == loremArray[current].innerText) {
-        loremArray[current].classList.remove('span_background_orange');
-        loremArray[current].classList.remove('span_background_red');
-        loremArray[current].classList.add('span_color_orange');
-        current++;
-        if (current == loremArray.length-2) {
-            finishText();
-        }
-        loremArray[current].classList.add('span_background_orange');
-    } else if (!(event.key == 'Shift') && !(event.key == 'CapsLock') && !(event.key == 'Alt')) {
-        loremArray[current].classList.remove('span_background_orange');
-        loremArray[current].classList.add('span_background_red');
-        setTimeout(() => {
+    if (current != -1) {
+        if (event.key == loremArray[current].innerText) {
+            loremArray[current].classList.remove('span_background_orange');
             loremArray[current].classList.remove('span_background_red');
-            loremArray[current].classList.add('span_background_orange'); 
-        }, 1000);
-        mispress++;
+            loremArray[current].classList.add('span_color_orange');
+            document.body.classList.remove('background_orange-red');
+            current++;
+            if (current == loremArray.length-2) {
+                finishText();
+            }
+            loremArray[current].classList.add('span_background_orange');
+        } else if ((event.key != 'Shift') && (event.key != 'CapsLock') && (event.key != 'Alt') && !(event.ctrlkey)) {
+            loremArray[current].classList.remove('span_background_orange');
+            loremArray[current].classList.add('span_background_red');
+            document.body.classList.add('background_orange-red');
+            mispress++;
+        }
+        showAccuracy();
     }
 }
 
@@ -107,7 +109,7 @@ function getText(url) {
             }
             loremArray = document.querySelectorAll('span');
             loremArray[0].classList.add('span_background_orange');
-            document.addEventListener('keydown', processKey);
+            document.addEventListener('keypress', processKey);
         });
 }
 
@@ -154,23 +156,22 @@ let speed = 0;
 
 function showSpeed() {
     let startTime = new Date();
-    speedTimerId = setInterval(() => {
+    speedTimerId = setTimeout(function tick(){
         let currentTime = new Date();
         let minutesPassed = (currentTime-startTime)/1000/60;
         speed = current/minutesPassed;
         appScreenSpeed.innerHTML = `${Math.round(speed)} <span class="span_font-size_16">Знак/Мин</span> `;
-    }, 1000);
+        speedTimerId = setTimeout(tick, 500);
+    }, 500);
 }
 
 let accuracyTimerId;
 let accuracy = 1;
 
 function showAccuracy() {
-    accuracyTimerId = setInterval(() => {
-        if (current+mispress != 0)
-            accuracy = 1 - mispress/(current+mispress);
-        appScreenAccuracy.innerHTML = `${Math.round(accuracy*100)}<span class="span_font-size_16">% Точность</span> `;
-    }, 1000);
+    if (current+mispress != 0)
+        accuracy = 1 - mispress/(current+mispress);
+    appScreenAccuracy.innerHTML = `${Math.round(accuracy*100)}<span class="span_font-size_16">% Точность</span> `;
 }
 
 // restart
@@ -178,7 +179,7 @@ function showAccuracy() {
 let restartButton = document.querySelector('.app-screen__restart-button');
 
 function clear() {
-    current = 0;
+    current = -1;
     mispress = 0;
     speed = 0;
     accuracy = 1;

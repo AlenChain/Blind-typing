@@ -2,6 +2,7 @@ body {
     font-family: 'PT Serif', serif;
     background-color: rgb(255, 177, 104);
     cursor: default;
+    overflow: hidden;
 }
 
 button {
@@ -62,6 +63,11 @@ button[disabled], button[disabled]:hover {
     font-size: 16px;
 }
 
+.background-letters__symbol {
+    color: white;
+    position: absolute;
+    z-index: -1;
+}
 
 .title {
     padding: 20px 0;

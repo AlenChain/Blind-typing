@@ -5,9 +5,9 @@
 let startButton = document.querySelector('.start-screen__button');
 let startScreen = document.querySelector('.start-screen');
 let appScreen = document.querySelector('.app-screen');
-let finishScreen = document.querySelector('.finish-screen');
 let appScreenSpeed = document.querySelector('.app-screen__speed');
 let appScreenAccuracy = document.querySelector('.app-screen__accuracy');
+let finishScreen = document.querySelector('.finish-screen');
 
 function changeScreen(id = 1) {
     if (event.target == finishScreenButton) id = 3;
@@ -40,11 +40,69 @@ function start() {
 
 startButton.addEventListener('click', start);
 
-// text
+// ru and eng buttons functional
+
+let ButtonRu = document.querySelector('.start-screen__button_ru');
+let ButtonEng = document.querySelector('.start-screen__button_eng');
+let Langs = document.querySelector('.start-screen__langs');
+
+function changeActiveButton() {
+    ButtonEng.classList.toggle('selected');
+    ButtonRu.classList.toggle('selected');
+    getText(url);
+}
+
+Langs.addEventListener('click', () => {
+    if ((event.target == ButtonRu) && (url != urlRu)) {
+        url = urlRu;
+        changeActiveButton();
+        addBackgroundLetters();
+    } else if ((event.target == ButtonEng) && (url != urlEng)) {
+        url = urlEng;
+        changeActiveButton();
+        addBackgroundLetters();
+    }
+
+});
+
+// getting and processing API data
 
 let loremText;
 let loremArray = [];
 let appScreenText = document.querySelector('.app-screen__text');
+let urlEng = 'https://baconipsum.com/api/?type=meat-and-filler&sentences=5&format=json';
+let urlRu = 'https://fish-text.ru/get?type=sentence&number=2';
+let url = urlRu;
+
+function getText(url) {
+    startButton.disabled = true;
+    fetch(url)
+    .then(responce => responce.json())
+    .then(respValue => {
+        if(url == urlRu) 
+            loremText = respValue.text;
+        else if(url == urlEng)
+            loremText = respValue[0];
+        appScreenText.innerHTML = '';
+        for(let i = 0; i < loremText.length; i++) {
+            if(loremText[i] != '')
+                appScreenText.innerHTML += `<span>${loremText[i]}</span>`;
+        }
+        loremArray = appScreenText.querySelectorAll('span');
+        loremArray[0].classList.add('span_background_orange');
+        document.addEventListener('keypress', processKey);
+        if (loremText.length > 375 || loremText.length < 200) {
+            getText(url);
+        } else {
+            startButton.disabled = false;
+        }
+        });
+}
+
+getText(url);
+
+// key pressing
+
 let current = -1;
 let mispress = 0;
 
@@ -57,7 +115,8 @@ function processKey() {
             loremArray[current].classList.add('span_color_orange');
             document.body.classList.remove('background_orange-red');
             current++;
-            if (current == loremArray.length-2) {
+            console.log(current, loremArray.length);
+            if (current == loremArray.length) {
                 finishText();
             } else 
                 loremArray[current].classList.add('span_background_orange');
@@ -73,89 +132,6 @@ function processKey() {
         }
         showAccuracy();
     }
-}
-
-let urlEng = 'https://baconipsum.com/api/?type=meat-and-filler&sentences=5&format=json';
-let urlRu = 'https://fish-text.ru/get?type=sentence&number=2';
-let url = urlRu;
-let ButtonRu = document.querySelector('.start-screen__button_ru');
-let ButtonEng = document.querySelector('.start-screen__button_eng');
-let Langs = document.querySelector('.start-screen__langs');
-
-function changeActiveButton() {
-    ButtonEng.classList.toggle('selected');
-    ButtonRu.classList.toggle('selected');
-}
-
-Langs.addEventListener('click', () => {
-    if ((event.target == ButtonRu) && (url != urlRu)) {
-        url = urlRu;
-        changeActiveButton();
-        getText(url);
-    } else if ((event.target == ButtonEng) && (url != urlEng)) {
-        url = urlEng;
-        changeActiveButton();
-        getText(url);
-    }
-
-});
-
-function getText(url) {
-    startButton.disabled = true;
-    fetch(url)
-    .then(responce => responce.json())
-    .then(respValue => {
-        if(url == urlRu) 
-            loremText = respValue.text;
-        else if(url == urlEng)
-            loremText = respValue[0];
-        appScreenText.innerHTML = '';
-        for(let i = 0; i < loremText.length; i++) {
-            appScreenText.innerHTML += `<span>${loremText[i]}</span>`;
-        }
-        loremArray = document.querySelectorAll('span');
-        loremArray[0].classList.add('span_background_orange');
-        document.addEventListener('keypress', processKey);
-        if (loremText.length > 375 || loremText.length < 200) {
-            getText(url);
-        } else {
-            startButton.disabled = false;
-        }
-        });
-}
-
-getText(url);
-
-// finishing
-
-let finishScreenSpeed = document.querySelector('.finish-screen__speed');
-let finishScreenAccuracy = document.querySelector('.finish-screen__accuracy');
-let finishScreenTitle = document.querySelector('.finish-screen__title');
-let finishScreenButton = document.querySelector('.finish-screen__button');
-
-finishScreenButton.addEventListener('click', changeScreen);
-
-function calcQuality() {
-    let speedQuality;
-    let accuracyQuality;
-    if (speed < 200) speedQuality = "ниже среднего";
-    else if((speed >= 200) && (speed < 350)) speedQuality = "выше среднего";
-    else if((speed >= 350) && (speed < 1060)) speedQuality = "очень высокая";
-    else if(speed >= 1060) speedQuality = "рекорд Гиннесса";
-    if (accuracy < 0.92) accuracyQuality = "ниже среднего";
-    else if((accuracy >= 0.92) && (accuracy < 0.97)) accuracyQuality = "выше среднего";
-    else if((accuracy >= 0.97) && (accuracy <= 1)) accuracyQuality = "очень высокая";
-    return [speedQuality, accuracyQuality];
-}
-
-function finishText() {
-    finishScreenSpeed.innerText = `Ваша скорость - ${Math.round(speed)} зн/мин`;
-    finishScreenAccuracy.innerText = `Ваша точность - ${Math.round(accuracy*100)}%`;
-    finishScreenTitle.innerText = `Тест закончен!
-                                   Ваша скорость - ${calcQuality()[0]}.
-                                   Ваша точность - ${calcQuality()[1]}.`;
-    changeScreen(2);
-    clear();
 }
 
 // speed and accuracy
@@ -187,6 +163,8 @@ function showAccuracy() {
 
 let restartButton = document.querySelector('.app-screen__restart-button');
 
+restartButton.addEventListener('click', restart);
+
 function clear() {
     current = -1;
     mispress = 0;
@@ -206,6 +184,85 @@ function restart() {
     getText(url);
 }
 
-restartButton.addEventListener('click', restart);
+// finishing
 
-//
+let finishScreenSpeed = document.querySelector('.finish-screen__speed');
+let finishScreenAccuracy = document.querySelector('.finish-screen__accuracy');
+let finishScreenTitle = document.querySelector('.finish-screen__title');
+let finishScreenButton = document.querySelector('.finish-screen__button');
+
+finishScreenButton.addEventListener('click', changeScreen);
+
+function calcQuality() {
+    let speedQuality;
+    let accuracyQuality;
+    if (speed < 200) speedQuality = "ниже среднего";
+    else if((speed >= 200) && (speed < 350)) speedQuality = "выше среднего";
+    else if((speed >= 350) && (speed < 1060)) speedQuality = "очень высокая";
+    else if(speed >= 1060) speedQuality = "рекорд Гиннесса";
+    if (accuracy < 0.92) accuracyQuality = "ниже среднего";
+    else if((accuracy >= 0.92) && (accuracy < 0.97)) accuracyQuality = "выше среднего";
+    else if((accuracy >= 0.97) && (accuracy <= 1)) accuracyQuality = "очень высокая";
+    return {
+        speed: speedQuality,
+        accuracy: accuracyQuality
+    };
+}
+
+function finishText() {
+    finishScreenSpeed.innerText = `Ваша скорость - ${Math.round(speed)} зн/мин`;
+    finishScreenAccuracy.innerText = `Ваша точность - ${Math.round(accuracy*100)}%`;
+    finishScreenTitle.innerText = `Тест закончен!
+                                   Ваша скорость - ${calcQuality().speed}.
+                                   Ваша точность - ${calcQuality().accuracy}.`;
+    changeScreen(2);
+    clear();
+}
+
+// background letters
+
+let charactersEng = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+let charactersRu = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя';
+
+function getRandProp(letter) {
+    let coord = startScreen.getBoundingClientRect();
+    let x = Math.round(Math.random()*document.documentElement.clientWidth);
+    let y = Math.round(Math.random()*document.documentElement.clientHeight);
+    while(x > coord.left && x < coord.right && y < (coord.top+coord.height)) {
+        x = Math.round(Math.random()*document.documentElement.clientWidth);
+        y = Math.round(Math.random()*document.documentElement.clientHeight);
+    }
+    let size = 36 + Math.round(Math.random()*100);
+    letter.style.left = `${x}px`;
+    letter.style.top = `${y}px`;
+    letter.style.fontSize = `${size}px`;
+    return letter;
+}
+
+console.log(startScreen.getBoundingClientRect());
+
+function addBackgroundLetters() {
+    let randNumber;
+    let characters;
+    let letterElement;
+
+    if (url == urlRu) {
+        characters = charactersRu;
+    } else {
+        characters = charactersEng;
+    }
+
+    let backgroundLetters = document.querySelector('.background-letters');
+    backgroundLetters.innerHTML = '';
+
+    for (let i = 0; i < 30; i++) {
+        randNumber = Math.round(Math.random()*100)%characters.length;
+        letterElement = document.createElement('span');
+        letterElement.classList.add('background-letters__symbol');
+        letterElement = getRandProp(letterElement);
+        letterElement.innerText = characters[randNumber];
+        backgroundLetters.append(letterElement);
+    }
+}
+
+addBackgroundLetters();

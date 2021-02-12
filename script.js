@@ -62,14 +62,14 @@ function processKey() {
             } else 
                 loremArray[current].classList.add('span_background_orange');
         } else if ((event.key != 'Shift') && (event.key != 'CapsLock') && (event.key != 'Alt') && !(event.ctrlkey)) {
+            loremArray[current].classList.add('span_background_red');
+            document.body.classList.add('background_orange-red');
             if ((event.key.match(/[a-zA-Z]/)) && (url == urlRu)) {
                 document.querySelector('.keybord-layout-box__message').classList.remove('hidden');
             } else if ((event.key.match(/[а-яА-Я]/)) && (url == urlEng)) {
                 document.querySelector('.keybord-layout-box__message').classList.remove('hidden');
-            }
-            loremArray[current].classList.add('span_background_red');
-            document.body.classList.add('background_orange-red');
-            mispress++;
+            } else
+                mispress++;
         }
         showAccuracy();
     }
@@ -116,7 +116,7 @@ function getText(url) {
         loremArray = document.querySelectorAll('span');
         loremArray[0].classList.add('span_background_orange');
         document.addEventListener('keypress', processKey);
-        if (loremText.length > 410) {
+        if (loremText.length > 375 || loremText.length < 200) {
             getText(url);
         } else {
             startButton.disabled = false;

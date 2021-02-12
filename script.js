@@ -13,19 +13,19 @@ function changeScreen(id = 1) {
     if (event.target == finishScreenButton) id = 3;
     switch(id) {
         case 1:
-            startScreen.classList.toggle('start-screen_hidden');
-            appScreen.classList.toggle('app-screen_hidden');
+            startScreen.classList.toggle('hidden');
+            appScreen.classList.toggle('hidden');
             appScreen.classList.toggle('flex');
             break;
         case 2:
-            appScreen.classList.toggle('app-screen_hidden');
+            appScreen.classList.toggle('hidden');
             appScreen.classList.toggle('flex');
-            finishScreen.classList.toggle('finish-screen_hidden');
+            finishScreen.classList.toggle('hidden');
             finishScreen.classList.toggle('flex');
             break;
         case 3:
-            startScreen.classList.toggle('start-screen_hidden');
-            finishScreen.classList.toggle('finish-screen_hidden');
+            startScreen.classList.toggle('hidden');
+            finishScreen.classList.toggle('hidden');
             finishScreen.classList.toggle('flex');
             break;
     }
@@ -50,18 +50,23 @@ let mispress = 0;
 
 function processKey() {
     if (current != -1) {
+        loremArray[current].classList.remove('span_background_orange');
         if (event.key == loremArray[current].innerText) {
-            loremArray[current].classList.remove('span_background_orange');
+            document.querySelector('.keybord-layout-box__message').classList.add('hidden');
             loremArray[current].classList.remove('span_background_red');
             loremArray[current].classList.add('span_color_orange');
             document.body.classList.remove('background_orange-red');
             current++;
             if (current == loremArray.length-2) {
                 finishText();
-            }
-            loremArray[current].classList.add('span_background_orange');
+            } else 
+                loremArray[current].classList.add('span_background_orange');
         } else if ((event.key != 'Shift') && (event.key != 'CapsLock') && (event.key != 'Alt') && !(event.ctrlkey)) {
-            loremArray[current].classList.remove('span_background_orange');
+            if ((event.key.match(/[a-zA-Z]/)) && (url == urlRu)) {
+                document.querySelector('.keybord-layout-box__message').classList.remove('hidden');
+            } else if ((event.key.match(/[а-яА-Я]/)) && (url == urlEng)) {
+                document.querySelector('.keybord-layout-box__message').classList.remove('hidden');
+            }
             loremArray[current].classList.add('span_background_red');
             document.body.classList.add('background_orange-red');
             mispress++;
@@ -96,6 +101,7 @@ Langs.addEventListener('click', () => {
 });
 
 function getText(url) {
+    startButton.disabled = true;
     fetch(url)
     .then(responce => responce.json())
     .then(respValue => {
@@ -106,17 +112,21 @@ function getText(url) {
         appScreenText.innerHTML = '';
         for(let i = 0; i < loremText.length; i++) {
             appScreenText.innerHTML += `<span>${loremText[i]}</span>`;
-            }
-            loremArray = document.querySelectorAll('span');
-            loremArray[0].classList.add('span_background_orange');
-            document.addEventListener('keypress', processKey);
+        }
+        loremArray = document.querySelectorAll('span');
+        loremArray[0].classList.add('span_background_orange');
+        document.addEventListener('keypress', processKey);
+        if (loremText.length > 410) {
+            getText(url);
+        } else {
+            startButton.disabled = false;
+        }
         });
 }
 
-ButtonRu.classList.toggle('selected');
 getText(url);
 
-//finishing
+// finishing
 
 let finishScreenSpeed = document.querySelector('.finish-screen__speed');
 let finishScreenAccuracy = document.querySelector('.finish-screen__accuracy');
@@ -146,7 +156,6 @@ function finishText() {
                                    Ваша точность - ${calcQuality()[1]}.`;
     changeScreen(2);
     clear();
-    getText(url);
 }
 
 // speed and accuracy
@@ -183,6 +192,8 @@ function clear() {
     mispress = 0;
     speed = 0;
     accuracy = 1;
+    document.body.classList.remove('background_orange-red');
+    document.querySelector('.keybord-layout-box__message').classList.add('hidden');
     clearTimeout(speedTimerId);
     clearTimeout(accuracyTimerId);
     appScreenSpeed.innerHTML = `0 <span class="span_font-size_16">Знак/Мин</span> `;

@@ -1,5 +1,6 @@
 body {
     background-color: rgb(255, 177, 104);
+    cursor: default;
 }
 
 button {
@@ -15,6 +16,13 @@ button:hover {
     color: rgb(255, 177, 104);
     border: 2px solid rgb(255, 177, 104);
     transition: 200ms;
+}
+
+button[disabled], button[disabled]:hover {
+    background-color: rgb(247, 224, 203);
+    border: 2px solid rgb(247, 224, 203);
+    color: white;
+    cursor: default;
 }
 
 .selected {
@@ -61,7 +69,19 @@ button:hover {
     width: 520px;
 }
 
-.app-screen_hidden, .start-screen_hidden, .finish-screen_hidden {
+.keybord-layout-box {
+    width: 360px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.keybord-layout-box__message {
+    padding-top: 70px;
+    color: red;
+    font-size: 26px;
+}
+
+.hidden {
     display: none;
 }
 
@@ -70,7 +90,7 @@ button:hover {
     width: 1000px;
     height: 400px;
     border-radius: 10px;
-    margin: 100px auto;
+    margin: 30px auto;
 }
 
 .start-screen {

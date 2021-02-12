@@ -10,18 +10,23 @@
 <body>
     <div class="title">Тренажер Слепой Печати</div>
 
+    <div class="keybord-layout-box">
+        <div class="keybord-layout-box__message hidden">Смените раскладку клавиатуры!</div>
+    </div>
+
     <div class="app-block">
+        
         <div class="start-screen">
             <div class="start-screen__title">Проверьте скорость и точность вашей печати!</div>
             <div class="start-screen__langs">
-                <button class="start-screen__button_ru">Рус</button>
+                <button class="start-screen__button_ru selected">Рус</button>
                 Выберите Язык
                 <button class="start-screen__button_eng">Eng</button>
             </div>
             <button class="start-screen__button">Начать!</button>
         </div>
 
-        <div class="app-screen app-screen_hidden">
+        <div class="app-screen hidden">
             <div class="app-screen__text"></div>
             <div class="app-screen__results">
                 <div class="app-screen__speed">
@@ -36,7 +41,7 @@
             </div>
         </div>
 
-        <div class="finish-screen finish-screen_hidden">
+        <div class="finish-screen hidden">
             <div class="finish-screen__speed"></div>
             <div class="finish-screen__accuracy"></div>
             <div class="finish-screen__title"></div>

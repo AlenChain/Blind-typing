@@ -67,6 +67,7 @@ button[disabled], button[disabled]:hover {
     color: white;
     position: absolute;
     z-index: -1;
+    user-select: none;
 }
 
 .title {
